@@ -1,13 +1,16 @@
 # scoutTkn
 
 1. Download openzeppelin
-npm install openzeppelin-solidity@v2.1.1
+
+   <pre><code>npm install openzeppelin-solidity@v2.1.1</code></pre>
 
 
 2. Edit config file
 
-const infuraKey = "";
-const mnemonic = '';
+    <pre><code>
+    const infuraKey = "";
+    const mnemonic = '';
+    </code></pre>
 
 - infuraKey : get from https://infura.io/
 - mnemonic : 12-Word Phrases of your account 
