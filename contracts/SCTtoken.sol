@@ -1,9 +1,8 @@
 pragma solidity ^0.5.0;
 
-import "../node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
-import "../node_modules/openzeppelin-solidity/contracts/token/ERC20/ERC20Detailed.sol";
-import "../node_modules/openzeppelin-solidity/contracts/lifecycle/Pausable.sol";
-// Pausable 변경 -> PauserRole 대신 Ownable 상속 : pause/unpause 는 owner만 실행 가능하게 변경함
+import "./helper/ERC20.sol";
+import "./helper/ERC20Detailed.sol";
+import "./helper/Pausable.sol";
 
 /**
  * @title SCTtoken
@@ -14,7 +13,7 @@ contract SCTtoken is ERC20, ERC20Detailed , Pausable{
     uint256 private _totalSupply ;
     mapping (address => uint256) private _balances;
 
-    constructor () public ERC20Detailed("token", "TKN", DECIMALS) {
+    constructor () public ERC20Detailed("ScoutToken", "SCT", DECIMALS) {
         _balances[msg.sender] = INITIAL_SUPPLY;
         _totalSupply = INITIAL_SUPPLY;
     }
