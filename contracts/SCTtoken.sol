@@ -13,7 +13,7 @@ contract SCTtoken is ERC20, ERC20Detailed , Pausable{
     uint256 private _totalSupply ;
     mapping (address => uint256) private _balances;
 
-    constructor () public ERC20Detailed("ScoutToken", "SCT", DECIMALS) {
+    constructor () public ERC20Detailed("ScoutChain Token", "SCT", DECIMALS) {
         _balances[msg.sender] = INITIAL_SUPPLY;
         _totalSupply = INITIAL_SUPPLY;
     }
