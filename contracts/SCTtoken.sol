@@ -3,17 +3,19 @@ pragma solidity ^0.5.0;
 import "./helper/ERC20.sol";
 import "./helper/ERC20Detailed.sol";
 import "./helper/Pausable.sol";
+// Pausable 변경 -> PauserRole 대신 Ownable 상속 : pause/unpause 는 owner만 실행 가능하게 변경함
 
 /**
  * @title SCTtoken
  */
 contract SCTtoken is ERC20, ERC20Detailed , Pausable{
     uint8 public constant DECIMALS = 18;
-    uint256 public constant INITIAL_SUPPLY = 1000000000 * (10 ** uint256(DECIMALS));
+  //  uint256 public constant INITIAL_SUPPLY = 1000000000 * (10 ** uint256(DECIMALS));
+    uint256 public constant INITIAL_SUPPLY = 1000; 
     uint256 private _totalSupply ;
     mapping (address => uint256) private _balances;
 
-    constructor () public ERC20Detailed("ScoutToken", "SCT", DECIMALS) {
+    constructor () public ERC20Detailed("token", "TKN", DECIMALS) {
         _balances[msg.sender] = INITIAL_SUPPLY;
         _totalSupply = INITIAL_SUPPLY;
     }
@@ -37,6 +39,10 @@ contract SCTtoken is ERC20, ERC20Detailed , Pausable{
         return _balances[owner];
     }
 
+    function frozenBalance(address owner) public view 
+    returns (uint256) {
+        return freezeOf[owner];
+    }
 
     function freezeAccount(address target, bool freeze) public onlyOwner {
         frozenAccount[target] = freeze;
@@ -93,7 +99,6 @@ contract SCTtoken is ERC20, ERC20Detailed , Pausable{
     }
 
     function freeze(uint256 _value) public  returns (bool success) {
-        require(_balances[msg.sender] >= _value && _value > 0);
 
         _balances[msg.sender] = SafeMath.sub(_balances[msg.sender], _value);  
         freezeOf[msg.sender] = SafeMath.add(freezeOf[msg.sender], _value);    
@@ -102,7 +107,6 @@ contract SCTtoken is ERC20, ERC20Detailed , Pausable{
     }
 	
     function unfreeze(uint256 _value) public returns (bool success) {
-        require(freezeOf[msg.sender] >= _value && _value > 0);
 
         freezeOf[msg.sender] = SafeMath.sub(freezeOf[msg.sender], _value);    
 		_balances[msg.sender] = SafeMath.add(_balances[msg.sender], _value);
